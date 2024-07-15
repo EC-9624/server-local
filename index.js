@@ -53,7 +53,7 @@ async function main() {
     }
   });
 
-  // GET /api/accounts/:account_id/transactions
+  // GET /api/accounts/{account_id}/transactions
   app.get("/api/accounts/:account_id/transactions", async (req, res) => {
     const { account_id } = req.params;
     const { type } = req.query;
@@ -72,17 +72,96 @@ async function main() {
     }
   });
 
+  // GET /api/accounts/{account_id}/expense
+  app.get("/api/accounts/:account_id/expense", async (req, res) => {
+    const { account_id } = req.params;
+    try {
+      const query = `
+        SELECT
+          DATE_FORMAT(transaction_date, '%Y-%m') AS month_year,
+          SUM(amount) AS spendings
+        FROM
+          paymentTransactions
+        WHERE
+          transaction_type = 'WITHDRAWAL'
+          AND account_id = ?
+        GROUP BY
+          DATE_FORMAT(transaction_date, '%Y-%m')
+        ORDER BY
+          DATE_FORMAT(transaction_date, '%Y-%m') ASC
+      `;
+      const [rows] = await connection.query(query, [account_id]);
+      res.json(rows);
+    } catch (err) {
+      res.status(500).send(err.message);
+    }
+  });
+
   // POST /api/accounts/:account_id/expense
   app.post("/api/accounts/:account_id/expense", async (req, res) => {
     const { account_id } = req.params;
-    const { amount, category_id, member_id, transaction_date, message } =
-      req.body;
+    const { amount, memo, categoryId, memberId } = req.body;
+    if (!amount || !memo || !categoryId || !memberId) {
+      return res.status(400).send("Missing required fields");
+    }
+
     try {
+      // Start transaction
+      await connection.beginTransaction();
+
+      // Insert the expense transaction
       await connection.query(
-        'INSERT INTO paymentTransactions (amount, account_id, category_id, member_id, transaction_date, message, transaction_type) VALUES (?, ?, ?, ?, ?, ?, "WITHDRAWAL")',
-        [amount, account_id, category_id, member_id, transaction_date, message]
+        'INSERT INTO paymentTransactions (amount, account_id, category_id, member_id, message, transaction_type) VALUES (?, ?, ?, ?, ?, "WITHDRAWAL")',
+        [amount, account_id, categoryId, memberId, memo]
       );
-      res.status(201).send("Expense recorded");
+
+      // Update the account balance
+      await connection.query(
+        "UPDATE accounts SET balance = balance - ? WHERE account_id = ?",
+        [amount, account_id]
+      );
+
+      // Fetch the updated balance
+      const [balanceRows] = await connection.query(
+        "SELECT balance FROM accounts WHERE account_id = ?",
+        [account_id]
+      );
+      const updatedBalance = balanceRows[0].balance;
+
+      // Commit transaction
+      await connection.commit();
+
+      // Send response with updated balance
+      res
+        .status(201)
+        .json({ message: "Expense recorded", balance: updatedBalance });
+    } catch (err) {
+      // Rollback transaction in case of error
+      await connection.rollback();
+      res.status(500).send(err.message);
+    }
+  });
+
+  // GET /api/accounts/:account_id/income
+  app.get("/api/accounts/:account_id/income", async (req, res) => {
+    const { account_id } = req.params;
+    try {
+      const query = `
+        SELECT
+          DATE_FORMAT(transaction_date, '%Y-%m') AS month_year,
+          SUM(amount) AS income
+        FROM
+          paymentTransactions
+        WHERE
+          transaction_type = 'DEPOSIT'
+          AND account_id = ?
+        GROUP BY
+          DATE_FORMAT(transaction_date, '%Y-%m')
+        ORDER BY
+          DATE_FORMAT(transaction_date, '%Y-%m') ASC
+      `;
+      const [rows] = await connection.query(query, [account_id]);
+      res.json(rows);
     } catch (err) {
       res.status(500).send(err.message);
     }
@@ -91,15 +170,43 @@ async function main() {
   // POST /api/accounts/:account_id/income
   app.post("/api/accounts/:account_id/income", async (req, res) => {
     const { account_id } = req.params;
-    const { amount, category_id, member_id, transaction_date, message } =
-      req.body;
+    const { amount, memo, memberId } = req.body;
+    if (!amount || !memo || !memberId) {
+      return res.status(400).send("Missing required fields");
+    }
+
     try {
+      // Start transaction
+      await connection.beginTransaction();
+
+      // Insert the income transaction
       await connection.query(
-        'INSERT INTO paymentTransactions (amount, account_id, category_id, member_id, transaction_date, message, transaction_type) VALUES (?, ?, ?, ?, ?, ?, "DEPOSIT")',
-        [amount, account_id, category_id, member_id, transaction_date, message]
+        'INSERT INTO paymentTransactions (amount, account_id, member_id, message, transaction_type) VALUES (?, ?, ?, ?, "DEPOSIT")',
+        [amount, account_id, memberId, memo]
       );
-      res.status(201).send("Income recorded");
+
+      // Update the account balance
+      await connection.query(
+        "UPDATE accounts SET balance = balance + ? WHERE account_id = ?",
+        [amount, account_id]
+      );
+
+      // Fetch the updated balance
+      const [balanceRows] = await connection.query(
+        "SELECT balance FROM accounts WHERE account_id = ?",
+        [account_id]
+      );
+      const updatedBalance = balanceRows[0].balance;
+
+      // Commit transaction
+      await connection.commit();
+
+      res
+        .status(201)
+        .json({ message: "Expense recorded", balance: updatedBalance });
     } catch (err) {
+      // Rollback transaction in case of error
+      await connection.rollback();
       res.status(500).send(err.message);
     }
   });

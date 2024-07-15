@@ -1,4 +1,4 @@
--- Create Categories
+-- Create Categories const connection = await createConnection(process.env.DATABASE_URL);
 INSERT INTO categories (category_name) VALUES
 ('買い物'),
 ('衣類'),
