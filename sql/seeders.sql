@@ -18,12 +18,20 @@ INSERT INTO members (name, password, rankpoint, account_id, created_at, updated_
 
 -- Create Missions
 INSERT INTO missions (mission_title, mission_description, exp_point, is_completed) VALUES
-('水筒を持ってこよう', '水筒に水を入れる。約200円節約！', 100, false),
-('冷房の設定温度を1度上げる', '約500円節約！', 200, false),
-('晩ご飯はカレーを作りましょう', '3回分の食事が節約！', 300, false),
+('水筒を持ってこよう', '水筒に水を入れる。約200円節約!', 100, false),
+('冷房の設定温度を1度上げる', '約500円節約!', 200, false),
+('晩ご飯はカレーを作りましょう', '3回分の食事が節約!', 300, false),
 ('買い物はできるだけサンディで済ませる', 'あらゆる物が安いサンディで買い出しを済ませて出費を抑える', 200, false),
 ('コンビニ食品禁止チャレンジ', '自炊を行える時間が無い時は納豆や豆腐といった手間がかからない料理で済ませる', 300, false),
 ('自炊チャレンジ', 'できるだけ安いスーパーで食材を買って自炊を行い、食費を抑える', 300, false);
+
+INSERT INTO memberMissions (member_id, mission_id, is_completed) VALUES
+(1, 1, false),
+(1, 2, false),
+(1, 3, false),
+(1, 4, false),
+(1, 5, false),
+(1, 6, false);
 
 INSERT INTO paymentTransactions (amount, account_id, category_id, member_id, transaction_date, message, transaction_type) VALUES
 (100, 1, 1, 1, '2023-12-01 10:00:00', 'December deposit', 'DEPOSIT'),
