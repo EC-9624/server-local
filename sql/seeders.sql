@@ -38,42 +38,50 @@ INSERT INTO paymentTransactions (amount, account_id, category_id, member_id, tra
 (150, 1, 1, 1, '2023-12-05 12:30:00', 'Gift', 'DEPOSIT'),
 (200, 1, 2, 1, '2023-12-10 15:45:00', 'Payment received', 'DEPOSIT'),
 (75, 1, 3, 1, '2023-12-15 18:00:00', 'Utility payment', 'WITHDRAWAL'),
-(50, 1, 4, 1, '2023-12-20 08:30:00', 'Groceries', 'WITHDRAWAL'),
+(50, 1, 4, 1, '2023-12-20 08:30:00', 'Groceries', 'WITHDRAWAL');
 
+INSERT INTO paymentTransactions (amount, account_id, category_id, member_id, transaction_date, message, transaction_type) VALUES
 (80, 1, 2, 1, '2024-01-05 10:00:00', 'January deposit', 'DEPOSIT'),
 (120, 1, 2, 1, '2024-01-12 11:45:00', 'Freelance payment', 'DEPOSIT'),
 (200, 1, 3, 1, '2024-01-20 09:15:00', 'Gift received', 'DEPOSIT'),
 (60, 1, 4, 1, '2024-01-25 14:00:00', 'Restaurant', 'WITHDRAWAL'),
-(150, 1, 1, 1, '2024-01-30 16:30:00', 'Bonus', 'DEPOSIT'),
+(150, 1, 1, 1, '2024-01-30 16:30:00', 'Bonus', 'DEPOSIT');
 
+INSERT INTO paymentTransactions (amount, account_id, category_id, member_id, transaction_date, message, transaction_type) VALUES
 (90, 1, 1, 1, '2024-02-01 10:30:00', 'February deposit', 'DEPOSIT'),
 (130, 1, 2, 1, '2024-02-08 13:00:00', 'Consulting fee', 'DEPOSIT'),
 (70, 1, 3, 1, '2024-02-15 17:00:00', 'Dinner', 'WITHDRAWAL'),
 (50, 1, 4, 1, '2024-02-20 12:45:00', 'Groceries', 'WITHDRAWAL'),
-(200, 1, 2, 1, '2024-02-28 11:15:00', 'Salary', 'DEPOSIT'),
+(200, 1, 2, 1, '2024-02-28 11:15:00', 'Salary', 'DEPOSIT');
 
+INSERT INTO paymentTransactions (amount, account_id, category_id, member_id, transaction_date, message, transaction_type) VALUES
 (100, 1, 1, 1, '2024-03-03 08:00:00', 'March deposit', 'DEPOSIT'),
 (75, 1, 2, 1, '2024-03-10 10:30:00', 'Freelance work', 'DEPOSIT'),
 (85, 1, 3, 1, '2024-03-15 18:30:00', 'Utility bill', 'WITHDRAWAL'),
 (150, 1, 1, 1, '2024-03-20 09:15:00', 'Gift', 'DEPOSIT'),
-(60, 1, 2, 1, '2024-03-25 12:00:00', 'Lunch', 'WITHDRAWAL'),
+(60, 1, 2, 1, '2024-03-25 12:00:00', 'Lunch', 'WITHDRAWAL');
 
+INSERT INTO paymentTransactions (amount, account_id, category_id, member_id, transaction_date, message, transaction_type) VALUES
 (110, 1, 3, 1, '2024-04-05 14:00:00', 'April deposit', 'DEPOSIT'),
 (95, 1, 4, 1, '2024-04-10 16:00:00', 'Freelance job', 'DEPOSIT'),
 (70, 1, 2, 1, '2024-04-15 13:45:00', 'Groceries', 'WITHDRAWAL'),
 (200, 1, 2, 1, '2024-04-20 17:30:00', 'Project payment', 'DEPOSIT'),
-(55, 1, 3, 1, '2024-04-25 08:15:00', 'Utilities', 'WITHDRAWAL'),
+(55, 1, 3, 1, '2024-04-25 08:15:00', 'Utilities', 'WITHDRAWAL');
 
+INSERT INTO paymentTransactions (amount, account_id, category_id, member_id, transaction_date, message, transaction_type) VALUES
 (130, 1, 1, 1, '2024-05-03 11:00:00', 'May deposit', 'DEPOSIT'),
 (75, 1, 2, 1, '2024-05-10 09:00:00', 'Side job', 'DEPOSIT'),
 (60, 1, 3, 1, '2024-05-15 15:30:00', 'Groceries', 'WITHDRAWAL'),
 (100, 1, 2, 1, '2024-05-20 16:45:00', 'Refund', 'DEPOSIT'),
-(85, 1, 4, 1, '2024-05-25 12:15:00', 'Entertainment', 'WITHDRAWAL'),
+(85, 1, 4, 1, '2024-05-25 12:15:00', 'Entertainment', 'WITHDRAWAL');
 
+INSERT INTO paymentTransactions (amount, account_id, category_id, member_id, transaction_date, message, transaction_type) VALUES
 (150, 1, 1, 1, '2024-06-01 14:30:00', 'June deposit', 'DEPOSIT'),
 (90, 1, 2, 1, '2024-06-07 10:45:00', 'Freelance work', 'DEPOSIT'),
 (110, 1, 3, 1, '2024-06-12 18:00:00', 'Gift received', 'DEPOSIT'),
 (70, 1, 4, 1, '2024-06-18 13:30:00', 'Groceries', 'WITHDRAWAL'),
 (60, 1, 2, 1, '2024-06-24 11:00:00', 'Utilities', 'WITHDRAWAL');
+
+
 
 
