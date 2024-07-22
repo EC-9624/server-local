@@ -208,7 +208,7 @@ async function main() {
 
       res
         .status(201)
-        .json({ message: "Expense recorded", balance: updatedBalance });
+        .json({ message: "Income recorded", balance: updatedBalance });
     } catch (err) {
       // Rollback transaction in case of error
       await connection.rollback();
