@@ -5,7 +5,12 @@ import { createConnection } from "mysql2/promise";
 dotenv.config();
 
 async function main() {
-  const connection = await createConnection(process.env.DATABASE_URL);
+  const connection = await createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+  });
   console.log("Connected to Database");
 
   const app = express();
